@@ -16,7 +16,7 @@ import java.util.Queue;
 
 public class GameService {
 
-    public static int GAME_FIELD_WIDTH = 8;
+    public static final int GAME_FIELD_WIDTH = 8;
     private final FieldService fieldService = new FieldService();
     private final AttackService attackService = new AttackService();
     private final MoveService moveService = new MoveService();
@@ -38,9 +38,9 @@ public class GameService {
         Player currentPlayer = game.getPlayersQueue().poll();
         game.getPlayersQueue().add(currentPlayer);
         List<Checker> playerChecker = game.getPlayerCheckersMap().get(currentPlayer);
-        recalculationCanIMove(playerChecker, game);
+        recalculationCanCheckersMove(playerChecker, game);
 
-        if(attackService.doAttack(playerChecker, game)) {
+        if (attackService.doAttack(playerChecker, game)) {
             if (game.getPlayerCheckersMap().get(game.getPlayersQueue().peek()).isEmpty()) {
                 game.setWinner(currentPlayer);
                 game.setNotInGame();
@@ -106,28 +106,28 @@ public class GameService {
         playerCheckersMap.get(player).add(checker);
     }
 
-    private void recalculationCanIMove(List<Checker> playerCheckers, Game game) {
+    private void recalculationCanCheckersMove(List<Checker> playerCheckers, Game game) {
         for (Checker checker : playerCheckers) {
             Cell cell = fieldService.getCell(checker, game);
             boolean canIMove = false;
             if (cell.hasUpRightNeighbor()) {
                 Cell cellNeighbor = cell.getUpRightNeighbor();
-                if (checkCanCheckerMove(cellNeighbor, checker, Direction.UP_RIGHT, game))
+                if (canCheckerMove(cellNeighbor, checker, Direction.UP_RIGHT, game))
                     canIMove = true;
             }
             if (cell.hasUpLeftNeighbor()) {
                 Cell cellNeighbor = cell.getUpLeftNeighbor();
-                if (checkCanCheckerMove(cellNeighbor, checker, Direction.UP_LEFT, game))
+                if (canCheckerMove(cellNeighbor, checker, Direction.UP_LEFT, game))
                     canIMove = true;
             }
             if (cell.hasDownRightNeighbor()) {
                 Cell cellNeighbor = cell.getDownRightNeighbor();
-                if (checkCanCheckerMove(cellNeighbor, checker, Direction.DOWN_RIGHT, game))
+                if (canCheckerMove(cellNeighbor, checker, Direction.DOWN_RIGHT, game))
                     canIMove = true;
             }
             if (cell.hasDownLeftNeighbor()) {
                 Cell cellNeighbor = cell.getDownLeftNeighbor();
-                if (checkCanCheckerMove(cellNeighbor, checker, Direction.DOWN_LEFT, game))
+                if (canCheckerMove(cellNeighbor, checker, Direction.DOWN_LEFT, game))
                     canIMove = true;
             }
 
@@ -136,7 +136,7 @@ public class GameService {
         }
     }
 
-    private boolean checkCanCheckerMove(Cell cellNeighbor, Checker checker, Direction direction, Game game) {
+    private boolean canCheckerMove(Cell cellNeighbor, Checker checker, Direction direction, Game game) {
 
         if (!fieldService.isContainChecker(cellNeighbor, game)) {
             checker.setCanMove();

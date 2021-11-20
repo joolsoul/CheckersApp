@@ -1,7 +1,6 @@
 package ru.vsu.garaba_v_i.model.field;
 
-public enum CellLetter
-{
+public enum CellLetter {
     A,
     B,
     C,

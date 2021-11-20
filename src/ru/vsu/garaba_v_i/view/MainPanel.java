@@ -12,15 +12,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.*;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 public class MainPanel extends JPanel implements MouseListener {
 
-    private Game game;
+    private final Game game;
     private final GameService gameService = new GameService();
     private final FieldService fieldService = new FieldService();
 
@@ -71,12 +70,12 @@ public class MainPanel extends JPanel implements MouseListener {
     private void paintGameField(Graphics2D gr) {
         boolean flag = true;
         int startY = 50;
-        for(int i = 0; i < CellLetter.values().length; i++, startY += CELL_SIZE, flag = !flag) {
+        for (int i = 0; i < CellLetter.values().length; i++, startY += CELL_SIZE, flag = !flag) {
             int startX = 50;
-            if(!flag) {
+            if (!flag) {
                 startX += CELL_SIZE;
             }
-            for(int j = 0; j < GameService.GAME_FIELD_WIDTH / 2; j++, startX += CELL_SIZE * 2) {
+            for (int j = 0; j < GameService.GAME_FIELD_WIDTH / 2; j++, startX += CELL_SIZE * 2) {
                 paintCell(gr, startX, startY);
             }
         }
@@ -89,31 +88,31 @@ public class MainPanel extends JPanel implements MouseListener {
     }
 
     private void paintSymbols(Graphics2D gr) {
-        Font myFont = new Font ("Courier New", Font.BOLD, 20);
+        Font myFont = new Font("Courier New", Font.BOLD, 20);
         gr.setFont(myFont);
         int startX = 25;
         int startY = 106;
         int lettersCount = 0;
-        for(char letter = 'H'; lettersCount < CellLetter.values().length; lettersCount++, letter--, startY += CELL_SIZE) {
+        for (char letter = 'H'; lettersCount < CellLetter.values().length; lettersCount++, letter--, startY += CELL_SIZE) {
             gr.drawString(String.valueOf(letter), startX, startY);
         }
         startX = 106;
         startY = this.getWidth() - 25;
-        for(int j = 0, number = 1; j < GameService.GAME_FIELD_WIDTH; j++, startX += CELL_SIZE, number ++) {
+        for (int j = 0, number = 1; j < GameService.GAME_FIELD_WIDTH; j++, startX += CELL_SIZE, number++) {
             gr.drawString(String.valueOf(number), startX, startY);
         }
     }
 
     private void paintCheckers(Graphics2D gr) {
         boolean flag = true;
-        for(Map.Entry<CellLetter, List<Cell>> entry : game.getGameField().entrySet()) {
+        for (Map.Entry<CellLetter, List<Cell>> entry : game.getGameField().entrySet()) {
             List<Cell> currentCells = entry.getValue();
             for (int i = 0; i < currentCells.size(); i++) {
                 Cell currentCell = currentCells.get(i);
-                if(fieldService.isContainChecker(currentCell, game)) {
+                if (fieldService.isContainChecker(currentCell, game)) {
                     Checker checker = fieldService.getChecker(currentCell, game);
                     int x = 50 + CELL_SIZE * i * 2;
-                    if(flag) {
+                    if (flag) {
                         x += CELL_SIZE;
                     }
                     int y = this.getHeight() - 48 - CELL_SIZE - CELL_SIZE * entry.getKey().ordinal();
@@ -125,7 +124,6 @@ public class MainPanel extends JPanel implements MouseListener {
     }
 
     private void paintChecker(Graphics2D gr, int x, int y, Checker checker) {
-
         gr.drawImage(checker.getImage(), x, y, CELL_SIZE, CELL_SIZE, this);
     }
 
@@ -138,7 +136,7 @@ public class MainPanel extends JPanel implements MouseListener {
         paintWithFont(gr, new Font("Serif", Font.BOLD, 50), new Color(0x0093C5), () ->
         {
             Player player = game.getWinner();
-                gr.drawString(player.getName(), (int) (this.getWidth() / 2.4), (int) (this.getHeight() / 1.8));
+            gr.drawString(player.getName(), (int) (this.getWidth() / 2.4), (int) (this.getHeight() / 1.8));
         });
     }
 
@@ -155,7 +153,7 @@ public class MainPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(game.isInGame()) {
+        if (game.isInGame()) {
             gameService.playGame(game);
             repaint();
         }

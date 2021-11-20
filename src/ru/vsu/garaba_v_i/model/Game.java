@@ -3,10 +3,13 @@ package ru.vsu.garaba_v_i.model;
 import ru.vsu.garaba_v_i.model.field.Cell;
 import ru.vsu.garaba_v_i.model.field.CellLetter;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
-public class Game
-{
+public class Game {
+
     private Queue<Player> playersQueue;
 
     private Map<Player, List<Checker>> playerCheckersMap = new LinkedHashMap<>();
@@ -24,39 +27,32 @@ public class Game
     private Player winner;
 
 
-    public Game(Queue<Player> playersQueue, Direction direction)
-    {
+    public Game(Queue<Player> playersQueue, Direction direction) {
         this.playersQueue = playersQueue;
         this.currentDirection = direction;
     }
 
-    public Queue<Player> getPlayersQueue()
-    {
+    public Queue<Player> getPlayersQueue() {
         return playersQueue;
     }
 
-    public void setPlayersQueue(Queue<Player> playersQueue)
-    {
+    public void setPlayersQueue(Queue<Player> playersQueue) {
         this.playersQueue = playersQueue;
     }
 
-    public Map<Player, List<Checker>> getPlayerCheckersMap()
-    {
+    public Map<Player, List<Checker>> getPlayerCheckersMap() {
         return playerCheckersMap;
     }
 
-    public void setPlayerCheckersMap(Map<Player, List<Checker>> playerCheckersMap)
-    {
+    public void setPlayerCheckersMap(Map<Player, List<Checker>> playerCheckersMap) {
         this.playerCheckersMap = playerCheckersMap;
     }
 
-    public Map<Checker, Cell> getCheckerPositionMap()
-    {
+    public Map<Checker, Cell> getCheckerPositionMap() {
         return checkerPositionMap;
     }
 
-    public void setCheckerPositionMap(Map<Checker, Cell> checkerPositionMap)
-    {
+    public void setCheckerPositionMap(Map<Checker, Cell> checkerPositionMap) {
         this.checkerPositionMap = checkerPositionMap;
     }
 

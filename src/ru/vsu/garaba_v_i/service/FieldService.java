@@ -23,7 +23,6 @@ public class FieldService
         for(CellLetter cellLetter : CellLetter.values()){
             List<Cell> currentCellsList = new LinkedList<>();
             for (int i = 0; i < width / 2; i++) {
-
                 currentCellsList.add(new Cell());
             }
             gameField.put(cellLetter, currentCellsList);
@@ -36,11 +35,11 @@ public class FieldService
             List<Cell> currentCellsList = gameField.get(CellLetter.values()[cellLetterNumber]);
 
             for (int cellNumber = 0; cellNumber < currentCellsList.size(); cellNumber++) {
+                Cell currentCell = currentCellsList.get(cellNumber);
                 Cell upLeftNeighbor;
                 Cell upRightNeighbor;
                 Cell downLeftNeighbor;
                 Cell downRightNeighbor;
-                Cell currentCell = currentCellsList.get(cellNumber);
 
                 if(cellLetterNumber == 0) {
                     if (cellNumber != currentCellsList.size() - 1) {
@@ -51,11 +50,11 @@ public class FieldService
                     currentCell.setUpLeftNeighbor(upLeftNeighbor);
                 }
                 if(cellLetterNumber == 7) {
-                    downRightNeighbor = getDownNeighbor(cellLetterNumber, cellNumber, gameField);
                     if(cellNumber != 0) {
                         downLeftNeighbor = getDownNeighbor(cellLetterNumber, cellNumber - 1, gameField);
                         currentCell.setDownLeftNeighbor(downLeftNeighbor);
                     }
+                    downRightNeighbor = getDownNeighbor(cellLetterNumber, cellNumber, gameField);
                     currentCell.setDownRightNeighbor(downRightNeighbor);
                 }
                 if(cellLetterNumber != 0 && cellLetterNumber != 7 ) {

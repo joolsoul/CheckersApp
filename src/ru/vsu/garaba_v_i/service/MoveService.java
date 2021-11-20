@@ -15,6 +15,7 @@ public class MoveService {
         Direction direction = game.getCurrentDirection();
         for (Checker checker : playerChecker) {
             if (checker.isCanIMove() && !checker.isKing()) {
+
                 if (direction.equals(Direction.UP)) {
                     if (doUpLeftMove(checker, game)) {
                         game.setCurrentDirection(Direction.DOWN);
@@ -25,6 +26,7 @@ public class MoveService {
                         return true;
                     }
                 }
+
                 if (direction.equals(Direction.DOWN)) {
                     if (doDownLeftMove(checker, game)) {
                         game.setCurrentDirection(Direction.UP);

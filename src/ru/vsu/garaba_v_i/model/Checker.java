@@ -5,44 +5,35 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Checker
-{
-    private boolean canIMove = false;
+public class Checker {
 
     private final Color color;
-
+    private final Image image;
+    private boolean canIMove = false;
     private boolean isKing = false;
 
-    private final Image image;
-
-    public Checker(Image image, Color color)
-    {
+    public Checker(Image image, Color color) {
         this.image = image;
         this.color = color;
     }
 
-    public boolean isCanIMove()
-    {
+    public boolean isCanIMove() {
         return canIMove;
     }
 
-    public void setCanMove()
-    {
+    public void setCanMove() {
         this.canIMove = true;
     }
 
-    public void setCanNotMove()
-    {
+    public void setCanNotMove() {
         this.canIMove = false;
     }
 
-    public boolean isKing()
-    {
+    public boolean isKing() {
         return isKing;
     }
 
-    public void setKing()
-    {
+    public void setKing() {
         isKing = true;
     }
 
@@ -51,7 +42,7 @@ public class Checker
     }
 
     public Image getImage() {
-        if(this.isKing) {
+        if (this.isKing) {
             try {
                 if (this.color.equals(Color.WHITE)) {
                     return ImageIO.read(new File("resources/whiteKing.png"));
