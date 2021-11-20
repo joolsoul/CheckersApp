@@ -26,9 +26,14 @@ public class Checker
         return canIMove;
     }
 
-    public void setCanIMove()
+    public void setCanMove()
     {
         this.canIMove = true;
+    }
+
+    public void setCanNotMove()
+    {
+        this.canIMove = false;
     }
 
     public boolean isKing()
@@ -36,9 +41,9 @@ public class Checker
         return isKing;
     }
 
-    public void setKing(boolean king)
+    public void setKing()
     {
-        isKing = king;
+        isKing = true;
     }
 
     public Color getColor() {

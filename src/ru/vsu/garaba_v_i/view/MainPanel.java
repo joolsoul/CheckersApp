@@ -27,8 +27,8 @@ public class MainPanel extends JPanel implements MouseListener {
     private final int CELL_SIZE = 112;
 
     public MainPanel() {
-        Player p1 = new Player("1");
-        Player p2 = new Player("2");
+        Player p1 = new Player("German");
+        Player p2 = new Player("Vlada");
         Queue<Player> playerQueue = new LinkedList<>();
         playerQueue.add(p1);
         playerQueue.add(p2);
@@ -47,6 +47,10 @@ public class MainPanel extends JPanel implements MouseListener {
         paintGameField(gr);
 
         paintCheckers(gr);
+
+        if (!game.isInGame()) {
+            paintWinner(gr);
+        }
     }
 
     private void paintBackground(Graphics2D gr) {
@@ -106,8 +110,8 @@ public class MainPanel extends JPanel implements MouseListener {
             List<Cell> currentCells = entry.getValue();
             for (int i = 0; i < currentCells.size(); i++) {
                 Cell currentCell = currentCells.get(i);
-                if(gameService.isContainChecker(currentCell, game.getCellWithCheckerMap())) {
-                    Checker checker = fieldService.getChecker(currentCell, game.getCellWithCheckerMap());
+                if(fieldService.isContainChecker(currentCell, game)) {
+                    Checker checker = fieldService.getChecker(currentCell, game);
                     int x = 50 + CELL_SIZE * i * 2;
                     if(flag) {
                         x += CELL_SIZE;
@@ -125,16 +129,34 @@ public class MainPanel extends JPanel implements MouseListener {
         gr.drawImage(checker.getImage(), x, y, CELL_SIZE, CELL_SIZE, this);
     }
 
+    private void paintWinner(Graphics2D gr) {
+        paintWithFont(gr, new Font("Serif", Font.BOLD, 70), new Color(0x00526E), () ->
+        {
+            gr.drawString("Winner", (int) (this.getWidth() / 2.6), (int) (this.getHeight() / 2.1));
+        });
+
+        paintWithFont(gr, new Font("Serif", Font.BOLD, 50), new Color(0x0093C5), () ->
+        {
+            Player player = game.getWinner();
+                gr.drawString(player.getName(), (int) (this.getWidth() / 2.4), (int) (this.getHeight() / 1.8));
+        });
+    }
+
+    private void paintWithFont(Graphics2D g, Font font, Color color, Runnable drawAction) {
+        Font oldF = g.getFont();
+        Color oldC = g.getColor();
+        g.setFont(font);
+        g.setColor(color);
+        drawAction.run();
+        g.setFont(oldF);
+        g.setColor(oldC);
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        /*
-        Checker checker = game.getPlayerCheckersMap().get(game.getPlayersQueue().peek()).get(9);
-        Cell oldCell = game.getFieldService().getCell(checker, game.getCheckerPositionMap());
-        Cell newCell = oldCell.getUpNeighboringCells().get(0);
-        fieldService.moveChecker(checker, newCell, game);
-         */
-        if(gameService.doStep(game)) {
+        if(game.isInGame()) {
+            gameService.playGame(game);
             repaint();
         }
     }

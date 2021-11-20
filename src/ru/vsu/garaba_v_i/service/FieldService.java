@@ -36,41 +36,53 @@ public class FieldService
             List<Cell> currentCellsList = gameField.get(CellLetter.values()[cellLetterNumber]);
 
             for (int cellNumber = 0; cellNumber < currentCellsList.size(); cellNumber++) {
-                List<Cell> upNeighborsCells = new LinkedList<>();
-                List<Cell> downNeighborsCells = new LinkedList<>();
+                Cell upLeftNeighbor;
+                Cell upRightNeighbor;
+                Cell downLeftNeighbor;
+                Cell downRightNeighbor;
                 Cell currentCell = currentCellsList.get(cellNumber);
 
                 if(cellLetterNumber == 0) {
-                    if (cellNumber != 0) {
-                        upNeighborsCells.add(getUpNeighbor(cellLetterNumber, cellNumber - 1, gameField));
+                    if (cellNumber != currentCellsList.size() - 1) {
+                        upRightNeighbor = getUpNeighbor(cellLetterNumber, cellNumber + 1, gameField);
+                        currentCell.setUpRightNeighbor(upRightNeighbor);
                     }
-                    upNeighborsCells.add(getUpNeighbor(cellLetterNumber, cellNumber, gameField));
-                    currentCell.setUpCells(upNeighborsCells);
+                    upLeftNeighbor = getUpNeighbor(cellLetterNumber, cellNumber, gameField);
+                    currentCell.setUpLeftNeighbor(upLeftNeighbor);
                 }
                 if(cellLetterNumber == 7) {
-                    downNeighborsCells.add(getDownNeighbor(cellLetterNumber, cellNumber, gameField));
-                    if(cellNumber != currentCellsList.size() - 1) {
-                        downNeighborsCells.add(getDownNeighbor(cellLetterNumber, cellNumber + 1, gameField));
+                    downRightNeighbor = getDownNeighbor(cellLetterNumber, cellNumber, gameField);
+                    if(cellNumber != 0) {
+                        downLeftNeighbor = getDownNeighbor(cellLetterNumber, cellNumber - 1, gameField);
+                        currentCell.setDownLeftNeighbor(downLeftNeighbor);
                     }
-                    currentCell.setDownCells(downNeighborsCells);
+                    currentCell.setDownRightNeighbor(downRightNeighbor);
                 }
                 if(cellLetterNumber != 0 && cellLetterNumber != 7 ) {
                     if(!isDoubleNeighbors) {
                         if(cellNumber != 0) {
-                            upNeighborsCells.add(getUpNeighbor(cellLetterNumber, cellNumber - 1, gameField));
-                            downNeighborsCells.add(getDownNeighbor(cellLetterNumber, cellNumber - 1, gameField));
+                            upLeftNeighbor = getUpNeighbor(cellLetterNumber, cellNumber - 1, gameField);
+                            downLeftNeighbor = getDownNeighbor(cellLetterNumber, cellNumber - 1, gameField);
+                            currentCell.setUpLeftNeighbor(upLeftNeighbor);
+                            currentCell.setDownLeftNeighbor(downLeftNeighbor);
                         }
+                        upRightNeighbor = getUpNeighbor(cellLetterNumber, cellNumber, gameField);
+                        downRightNeighbor = getDownNeighbor(cellLetterNumber, cellNumber, gameField);
+                        currentCell.setUpRightNeighbor(upRightNeighbor);
+                        currentCell.setDownRightNeighbor(downRightNeighbor);
                     }
-                    upNeighborsCells.add(getUpNeighbor(cellLetterNumber, cellNumber, gameField));
-                    downNeighborsCells.add(getDownNeighbor(cellLetterNumber, cellNumber, gameField));
                     if(isDoubleNeighbors) {
                         if(cellNumber != currentCellsList.size() - 1) {
-                            upNeighborsCells.add(getUpNeighbor(cellLetterNumber, cellNumber + 1, gameField));
-                            downNeighborsCells.add(getDownNeighbor(cellLetterNumber, cellNumber + 1, gameField));
+                            upRightNeighbor = getUpNeighbor(cellLetterNumber, cellNumber + 1, gameField);
+                            downRightNeighbor = getDownNeighbor(cellLetterNumber, cellNumber + 1, gameField);
+                            currentCell.setUpRightNeighbor(upRightNeighbor);
+                            currentCell.setDownRightNeighbor(downRightNeighbor);
                         }
+                        upLeftNeighbor = getUpNeighbor(cellLetterNumber, cellNumber, gameField);
+                        downLeftNeighbor = getDownNeighbor(cellLetterNumber, cellNumber, gameField);
+                        currentCell.setUpLeftNeighbor(upLeftNeighbor);
+                        currentCell.setDownLeftNeighbor(downLeftNeighbor);
                     }
-                    currentCell.setUpCells(upNeighborsCells);
-                    currentCell.setDownCells(downNeighborsCells);
                 }
             }
         }
@@ -86,23 +98,25 @@ public class FieldService
         return gameField.get(upNeighborLetter).get(index);
     }
 
-    public void addCheckerOnField(Checker checker, Cell cell, Map<Checker, Cell> checkerPositionMap, Map<Cell, Checker> cellWithCheckerMap) {
-        checkerPositionMap.put(checker, cell);
-        cellWithCheckerMap.put(cell, checker);
+    public void addCheckerOnField(Checker checker, Cell cell, Game game) {
+        game.getCheckerPositionMap().put(checker, cell);
+        game.getCellWithCheckerMap().put(cell, checker);
     }
 
-    public Cell getCell(Checker checker, Map<Checker, Cell> checkerPositionMap) {
-        return checkerPositionMap.get(checker);
+    public Cell getCell(Checker checker, Game game) {
+        return game.getCheckerPositionMap().get(checker);
     }
 
-    public Checker getChecker(Cell cell, Map<Cell, Checker> cellWithCheckerMap) {
-        return cellWithCheckerMap.get(cell);
+    public Checker getChecker(Cell cell, Game game) {
+        return game.getCellWithCheckerMap().get(cell);
     }
 
     public void removeChecker(Checker checker, Game game) {
         Cell cell = game.getCheckerPositionMap().get(checker);
         game.getCellWithCheckerMap().remove(cell);
         game.getCheckerPositionMap().remove(checker);
+        Player opponent = game.getPlayersQueue().peek();
+        game.getPlayerCheckersMap().get(opponent).remove(checker);
     }
 
     public void moveChecker(Checker checker, Cell cell, Game game) {
@@ -110,5 +124,37 @@ public class FieldService
         game.getCellWithCheckerMap().remove(oldCell);
         game.getCellWithCheckerMap().put(cell, checker);
         game.getCheckerPositionMap().put(checker, cell);
+        if(game.getCurrentDirection().equals(Direction.UP)) {
+            List<Cell> cells = game.getGameField().get(CellLetter.H);
+            for(Cell currentCell : cells) {
+                if(currentCell.equals(cell))
+                    checker.setKing();
+            }
+        }
+        if(game.getCurrentDirection().equals(Direction.DOWN)) {
+            List<Cell> cells = game.getGameField().get(CellLetter.A);
+            for(Cell currentCell : cells) {
+                if(currentCell.equals(cell))
+                    checker.setKing();
+            }
+        }
+    }
+
+    public boolean isContainChecker(Cell cell, Game game) {
+        for (Map.Entry<Cell, Checker> currentCell : game.getCellWithCheckerMap().entrySet()) {
+            if (currentCell.getKey().equals(cell)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isContainOppositeChecker(Cell cellWithOppositeChecker, Checker checker, Game game) {
+        for (Map.Entry<Cell, Checker> currentCell : game.getCellWithCheckerMap().entrySet()) {
+            if (currentCell.getKey().equals(cellWithOppositeChecker) && !checker.getColor().equals(currentCell.getValue().getColor())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

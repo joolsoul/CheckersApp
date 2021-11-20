@@ -2,7 +2,6 @@ package ru.vsu.garaba_v_i.model;
 
 import ru.vsu.garaba_v_i.model.field.Cell;
 import ru.vsu.garaba_v_i.model.field.CellLetter;
-import ru.vsu.garaba_v_i.service.FieldService;
 
 import java.util.*;
 
@@ -18,9 +17,11 @@ public class Game
 
     private Map<Cell, Checker> cellWithCheckerMap = new LinkedHashMap<>();
 
-    private final FieldService fieldService = new FieldService();
-
     private Direction currentDirection;
+
+    private boolean isInGame = true;
+
+    private Player winner;
 
 
     public Game(Queue<Player> playersQueue, Direction direction)
@@ -75,16 +76,27 @@ public class Game
         this.cellWithCheckerMap = cellWithCheckerMap;
     }
 
-    public FieldService getFieldService()
-    {
-        return fieldService;
-    }
-
     public Direction getCurrentDirection() {
         return currentDirection;
     }
 
     public void setCurrentDirection(Direction currentDirection) {
         this.currentDirection = currentDirection;
+    }
+
+    public boolean isInGame() {
+        return isInGame;
+    }
+
+    public void setNotInGame() {
+        isInGame = false;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 }

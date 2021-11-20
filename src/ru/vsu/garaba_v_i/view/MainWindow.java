@@ -10,8 +10,8 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         setTitle("Checkers");
         setSize(WIDTH, HEIGHT);
-        //ImageIcon icon = new ImageIcon("resources/appImage.jpg");
-        //setIconImage(icon.getImage());
+        ImageIcon icon = new ImageIcon("resources/applicationImage.png");
+        setIconImage(icon.getImage());
         add(new MainPanel());
         setLocationRelativeTo(null);
         setResizable(false);
