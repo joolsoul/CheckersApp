@@ -1,4 +1,4 @@
-package ru.vsu.garaba_v_i.model.field;
+package ru.vsu.joolsoul.model.field;
 
 public enum CellLetter {
     A,

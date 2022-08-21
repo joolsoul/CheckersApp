@@ -1,9 +1,9 @@
-package ru.vsu.garaba_v_i.service;
+package ru.vsu.joolsoul.service;
 
-import ru.vsu.garaba_v_i.model.Color;
-import ru.vsu.garaba_v_i.model.*;
-import ru.vsu.garaba_v_i.model.field.Cell;
-import ru.vsu.garaba_v_i.model.field.CellLetter;
+import ru.vsu.joolsoul.model.Color;
+import ru.vsu.joolsoul.model.*;
+import ru.vsu.joolsoul.model.field.Cell;
+import ru.vsu.joolsoul.model.field.CellLetter;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -51,8 +51,7 @@ public class GameService {
         return moveService.doMove(playerChecker, game);
     }
 
-    private void initPlayerCheckersMap
-            (Map<Player, List<Checker>> playerCheckersMap, Queue<Player> playersQueue) {
+    private void initPlayerCheckersMap(Map<Player, List<Checker>> playerCheckersMap, Queue<Player> playersQueue) {
         for (Player player : playersQueue) {
             playerCheckersMap.put(player, new LinkedList<>());
         }

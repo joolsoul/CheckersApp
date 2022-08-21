@@ -1,12 +1,12 @@
-package ru.vsu.garaba_v_i.view;
+package ru.vsu.joolsoul.view;
 
-import ru.vsu.garaba_v_i.model.Checker;
-import ru.vsu.garaba_v_i.model.Game;
-import ru.vsu.garaba_v_i.model.Player;
-import ru.vsu.garaba_v_i.model.field.Cell;
-import ru.vsu.garaba_v_i.model.field.CellLetter;
-import ru.vsu.garaba_v_i.service.FieldService;
-import ru.vsu.garaba_v_i.service.GameService;
+import ru.vsu.joolsoul.model.Checker;
+import ru.vsu.joolsoul.model.Game;
+import ru.vsu.joolsoul.model.Player;
+import ru.vsu.joolsoul.model.field.Cell;
+import ru.vsu.joolsoul.model.field.CellLetter;
+import ru.vsu.joolsoul.service.FieldService;
+import ru.vsu.joolsoul.service.GameService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ public class MainPanel extends JPanel implements MouseListener {
 
     public MainPanel() {
         Player p1 = new Player("German");
-        Player p2 = new Player("Vlada");
+        Player p2 = new Player("Ruslan");
         Queue<Player> playerQueue = new LinkedList<>();
         playerQueue.add(p1);
         playerQueue.add(p2);

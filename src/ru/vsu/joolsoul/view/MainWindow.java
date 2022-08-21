@@ -1,4 +1,4 @@
-package ru.vsu.garaba_v_i.view;
+package ru.vsu.joolsoul.view;
 
 import javax.swing.*;
 

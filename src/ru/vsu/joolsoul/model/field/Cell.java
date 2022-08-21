@@ -1,7 +1,7 @@
-package ru.vsu.garaba_v_i.model.field;
+package ru.vsu.joolsoul.model.field;
 
 
-import ru.vsu.garaba_v_i.model.Direction;
+import ru.vsu.joolsoul.model.Direction;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

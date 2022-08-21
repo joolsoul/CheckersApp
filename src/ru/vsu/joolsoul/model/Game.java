@@ -1,7 +1,7 @@
-package ru.vsu.garaba_v_i.model;
+package ru.vsu.joolsoul.model;
 
-import ru.vsu.garaba_v_i.model.field.Cell;
-import ru.vsu.garaba_v_i.model.field.CellLetter;
+import ru.vsu.joolsoul.model.field.Cell;
+import ru.vsu.joolsoul.model.field.CellLetter;
 
 import java.util.LinkedHashMap;
 import java.util.List;

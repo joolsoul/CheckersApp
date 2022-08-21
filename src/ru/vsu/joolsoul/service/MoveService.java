@@ -1,9 +1,9 @@
-package ru.vsu.garaba_v_i.service;
+package ru.vsu.joolsoul.service;
 
-import ru.vsu.garaba_v_i.model.Checker;
-import ru.vsu.garaba_v_i.model.Direction;
-import ru.vsu.garaba_v_i.model.Game;
-import ru.vsu.garaba_v_i.model.field.Cell;
+import ru.vsu.joolsoul.model.Checker;
+import ru.vsu.joolsoul.model.Direction;
+import ru.vsu.joolsoul.model.Game;
+import ru.vsu.joolsoul.model.field.Cell;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package ru.vsu.garaba_v_i.model;
+package ru.vsu.joolsoul.model;
 
 public class Player {
 

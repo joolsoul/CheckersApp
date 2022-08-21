@@ -1,6 +1,6 @@
-package ru.vsu.garaba_v_i;
+package ru.vsu.joolsoul;
 
-import ru.vsu.garaba_v_i.view.MainWindow;
+import ru.vsu.joolsoul.view.MainWindow;
 
 public class Main {
 
